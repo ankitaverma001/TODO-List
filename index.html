@@ -9,12 +9,137 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --grad-1: #a18cd1;
+            --grad-2: #fbc2eb;
+            --grad-3: #8ec5fc;
+            --ink: #2d2a4a;
+            --ink-soft: #6b6580;
+            --card: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(255, 255, 255, 0.6);
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            color: var(--ink);
+            min-height: 100vh;
+            background: linear-gradient(-45deg, var(--grad-1), var(--grad-2), var(--grad-3), #c2e9fb);
+            background-size: 400% 400%;
+            animation: gradientShift 16s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h2 {
+            font-family: "Poppins", sans-serif;
+            font-weight: 700;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.55) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .navbar-brand {
+            font-family: "Poppins", sans-serif;
+            font-weight: 700;
+            color: var(--ink) !important;
+        }
+
+        .todo-card {
+            background: var(--card);
+            backdrop-filter: blur(14px);
+            border: 1px solid var(--card-border);
+            border-radius: 1.5rem;
+            box-shadow: 0 12px 40px rgba(120, 90, 200, 0.2);
+            padding: 2rem;
+        }
+
+        .form-control {
+            border-radius: 0.75rem;
+            border: 1px solid rgba(120, 90, 200, 0.25);
+        }
+
+        .form-control:focus {
+            border-color: var(--grad-1);
+            box-shadow: 0 0 0 0.2rem rgba(161, 140, 209, 0.3);
+        }
+
+        .btn-glow {
+            background: linear-gradient(90deg, var(--grad-1), var(--grad-3));
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            padding: 0.6rem 2rem;
+            border-radius: 999px;
+            box-shadow: 0 6px 20px rgba(142, 197, 252, 0.5);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 26px rgba(142, 197, 252, 0.6);
+            color: #fff;
+        }
+
+        .table {
+            background: transparent;
+        }
+
+        .table thead th {
+            font-family: "Poppins", sans-serif;
+            color: var(--ink-soft);
+            border-bottom: 2px solid rgba(120, 90, 200, 0.2);
+        }
+
+        .table tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        .table tbody tr:hover {
+            background: rgba(161, 140, 209, 0.08);
+        }
+
+        .btn-edit {
+            background: linear-gradient(90deg, #f6d365, #fda085);
+            border: none;
+            color: #4a3200;
+            font-weight: 600;
+            border-radius: 999px;
+        }
+
+        .btn-remove {
+            background: linear-gradient(90deg, #ff758c, #ff7eb3);
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 999px;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--ink-soft);
+            padding: 1.5rem;
+            font-style: italic;
+        }
+    </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">TODOs List</a>
+            <a class="navbar-brand" href="#">✅ TODOs List</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -54,36 +179,40 @@
         </div>
     </nav>
 
-    <div class="container my-4">
-        <h2 class="text-center">TODOs List</h2>
+    <div class="container my-4" style="max-width: 760px;">
+        <div class="todo-card">
+            <h2 class="text-center mb-4">✨ TODOs List</h2>
 
-        <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" id="title" aria-describedby="titleHelp">
-            <div id="titleHelp" class="form-text">Add an item to the list.</div>
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" aria-describedby="titleHelp">
+                <div id="titleHelp" class="form-text">Add an item to the list.</div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <textarea class="form-control" placeholder="Leave a comment here" id="description"></textarea>
+                <label for="description">Description</label>
+            </div>
+
+            <button type="button" id="addButton" class="btn btn-glow">Add to list</button>
         </div>
 
-        <div class="form-floating mb-3">
-            <textarea class="form-control" placeholder="Leave a comment here" id="description"></textarea>
-            <label for="description">Description</label>
-        </div>
-
-        <button type="button" id="addButton" class="btn btn-primary">Add to list</button>
-
-        <div id="items" class="container my-4">
-            <h2 class="text-center">Your Items</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">S.No.</th>
-                        <th scope="col">Item title</th>
-                        <th scope="col">Item description</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="itemsTableBody">
-                </tbody>
-            </table>
+        <div id="items" class="todo-card mt-4">
+            <h2 class="text-center mb-4">📋 Your Items</h2>
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">S.No.</th>
+                            <th scope="col">Item title</th>
+                            <th scope="col">Item description</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemsTableBody">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -112,6 +241,16 @@
 
         function renderItems() {
             itemsTableBody.innerHTML = "";
+
+            if (itemJsonArray.length === 0) {
+                itemsTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="empty-state">No items yet — add your first task above 🎯</td>
+                    </tr>
+                `;
+                return;
+            }
+
             itemJsonArray.forEach((item, index) => {
                 let row = document.createElement("tr");
                 row.innerHTML = `
@@ -119,8 +258,8 @@
                     <td>${item.title}</td>
                     <td>${item.description}</td>
                     <td>
-                        <button class="btn btn-sm btn-secondary me-1" data-action="edit" data-index="${index}">Edit</button>
-                        <button class="btn btn-sm btn-danger" data-action="delete" data-index="${index}">Delete</button>
+                        <button class="btn btn-sm btn-edit me-1" data-action="edit" data-index="${index}">✏️ Edit</button>
+                        <button class="btn btn-sm btn-remove" data-action="delete" data-index="${index}">🗑️ Delete</button>
                     </td>
                 `;
                 itemsTableBody.appendChild(row);
