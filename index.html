@@ -104,6 +104,8 @@
             itemJsonArray = JSON.parse(localStorage.getItem("itemsJson"));
         }
 
+        let editingIndex = null;
+
         function saveItems() {
             localStorage.setItem("itemsJson", JSON.stringify(itemJsonArray));
         }
@@ -117,11 +119,19 @@
                     <td>${item.title}</td>
                     <td>${item.description}</td>
                     <td>
-                        <button class="btn btn-sm btn-danger" data-index="${index}">Delete</button>
+                        <button class="btn btn-sm btn-secondary me-1" data-action="edit" data-index="${index}">Edit</button>
+                        <button class="btn btn-sm btn-danger" data-action="delete" data-index="${index}">Delete</button>
                     </td>
                 `;
                 itemsTableBody.appendChild(row);
             });
+        }
+
+        function resetForm() {
+            editingIndex = null;
+            addButton.textContent = "Add to list";
+            titleInput.value = "";
+            descriptionInput.value = "";
         }
 
         addButton.addEventListener("click", function () {
@@ -132,20 +142,37 @@
                 return;
             }
 
-            itemJsonArray.push({ title, description });
+            if (editingIndex !== null) {
+                itemJsonArray[editingIndex] = { title, description };
+            } else {
+                itemJsonArray.push({ title, description });
+            }
+
             saveItems();
             renderItems();
-
-            titleInput.value = "";
-            descriptionInput.value = "";
+            resetForm();
         });
 
         itemsTableBody.addEventListener("click", function (e) {
-            if (e.target.tagName === "BUTTON") {
-                let index = Number(e.target.dataset.index);
+            if (e.target.tagName !== "BUTTON") {
+                return;
+            }
+
+            let index = Number(e.target.dataset.index);
+
+            if (e.target.dataset.action === "delete") {
                 itemJsonArray.splice(index, 1);
+                if (editingIndex === index) {
+                    resetForm();
+                }
                 saveItems();
                 renderItems();
+            } else if (e.target.dataset.action === "edit") {
+                editingIndex = index;
+                titleInput.value = itemJsonArray[index].title;
+                descriptionInput.value = itemJsonArray[index].description;
+                addButton.textContent = "Update item";
+                titleInput.focus();
             }
         });
 
